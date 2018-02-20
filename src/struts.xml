@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+	<!-- 配置struts2 可以受理请求的扩展名:以.action，.do,结尾或者什么都不写均可 -->
+	<constant name="struts.action.extension" value="action,do,"></constant>
+	<!-- 通配符的配置方法一：需要设置这个常量为true，然后再在action中单独设置 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<!-- 静态方法调用 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	
+	<package name="actionContext" extends="struts-default" >
+		<!-- 全局的异常设置
+		<global-results>
+			<result name="index">/index.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="index" exception="java.lang.ArithmeticException"></exception-mapping>
+		</global-exception-mappings>
+		 -->
+		 
+		<action name="product-add">
+			<result>/WEB-INF/pages/productAdd.jsp</result>
+		</action>
+		<action name="product-*" class="cn.zc_cris.Product" method="{1}">
+			<!-- 针对每个Action设置的异常处理 -->
+			<exception-mapping result="index" exception="java.lang.ArithmeticException"></exception-mapping>
+			<result name="index">/index.jsp</result>
+			<result name="{1}">/WEB-INF/pages/showDetails.jsp</result>
+			<allowed-methods>save</allowed-methods>
+		</action>
+		
+		<action name="testTag-*" class="cn.zc_cris.Product" method="{1}">
+			<result name="{1}">/testTag.jsp</result>
+			<allowed-methods>property</allowed-methods>
+		</action>
+		
+		<action name="user-*" class="cn.zc_cris.user.register.UserAction" method="{1}">
+			<result name="{1}">/registerUI.jsp</result>
+			<allowed-methods>registerUI,register</allowed-methods>
+		</action>
+		
+		<!-- 
+		<action name="user-*" class="cn.zc_cris.UserAction" method="{1}">
+			<result name="{1}">/form-tag.jsp</result>
+			<allowed-methods>save</allowed-methods>
+		</action>
+		 -->
+		
+	</package>
+</struts>
+
